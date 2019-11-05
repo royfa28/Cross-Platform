@@ -7,7 +7,9 @@ import { BehaviorSubject } from 'rxjs';
 export class DataService {
   public data:Array<string>;
   constructor() { }
-
+  addTask() {
+    
+  }
   getData() {}
   saveData() {}
 }
