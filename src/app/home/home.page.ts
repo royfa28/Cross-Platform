@@ -22,7 +22,7 @@ export class HomePage implements OnInit {
 
   taskForm:FormGroup;
   constructor( 
-    private data:DataService,
+    private dataService:DataService,
     private formBuilder:FormBuilder
   ) { }
 
@@ -49,6 +49,15 @@ export class HomePage implements OnInit {
   }
 
   save() {
+    let task:Task = {
+      name: this.taskForm.get('name').value, 
+      start: this.startTime,
+      end: this.endTime,
+      duration: this.duration
+    }
+    this.dataService.addTask( task );
+    this.taskForm.reset();
     this.duration = 0;
+    this.time = 0;
   }
 }
