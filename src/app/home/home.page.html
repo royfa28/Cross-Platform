@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <img class="logo" slot="end" src="../../assets/logo/logo.svg">
+    <ion-title slot="start">Record A Task</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="taskForm">
+    <ion-list>
+      <ion-list-header>
+          Start a new Task
+      </ion-list-header>
+      <ion-item>
+        <ion-input type="text" name="taskName" placeholder="task name" formControlName="name"></ion-input>
+      </ion-item>
+      <ion-button [disabled]="!taskForm.valid" expand="full">Start</ion-button>
+    </ion-list>
+  </form>
+  <ion-list>
+
+  </ion-list>
+</ion-content>
