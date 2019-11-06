@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup} from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import {timer} from 'rxjs';
 
 import { DataService } from '../data.service';
+import { Task } from '../../models/task.interface';
 
 @Component({
   selector: 'app-home',
@@ -15,10 +16,10 @@ export class HomePage implements OnInit {
   duration:number = 0;
 
   time:number;
-  timerObj:Observable;
+  timerObj:Subscription;
 
   startTime:number;
-  stopTime:number;
+  endTime:number;
 
   taskForm:FormGroup;
   constructor( 
@@ -43,8 +44,8 @@ export class HomePage implements OnInit {
 
   stop() {
     this.started = false;
-    this.stopTime = new Date().getTime();
-    this.duration = this.stopTime - this.startTime;
+    this.endTime = new Date().getTime();
+    this.duration = this.endTime - this.startTime;
     this.timerObj.unsubscribe();
   }
 
