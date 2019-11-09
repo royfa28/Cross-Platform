@@ -15,6 +15,35 @@ export class DataService {
     this.data.push(task);
     this.dataList$.next( this.data );
   }
-  getData() {}
-  saveData() {}
+  getData() {
+    try{
+      if( !window.localStorage ){
+        throw('local storage not available')
+      }
+      else {
+        let tasks = window.localStorage.getItem('tasks')
+        this.data = JSON.parse( tasks )
+        this.dataList$.next( this.data );
+        Promise.resolve( true )
+      }
+    }
+    catch ( error ) {
+      Promise.reject( error )
+    }
+  }
+
+  async saveData() {
+    try{
+      if( !window.localStorage ){
+        throw('local storage not available')
+      }
+      else{
+        await window.localStorage.setItem('tasks', JSON.stringify( this.data ) )
+        Promise.resolve( true )
+      }
+    }
+    catch( error ){
+      Promise.reject( error )
+    }
+  }
 }
