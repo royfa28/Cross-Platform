@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 
 import { Task } from '../models/task.interface';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -10,40 +11,54 @@ export class DataService {
   public data:Array<Task> = [];
   public dataList$ = new BehaviorSubject<Task[]>( this.data );
 
-  constructor() { }
+  constructor() { 
+    this.getData().then( (response) => { 
+      if( response ) {
+        this.dataList$.next(this.data) 
+      }
+    });
+  }
   addTask( task ) {
     this.data.push(task);
+    this.saveData();
     this.dataList$.next( this.data );
   }
   getData() {
-    try{
-      if( !window.localStorage ){
-        throw('local storage not available')
+    return new Promise( (resolve,reject) => {
+      try{
+        if( !window.localStorage ){
+          throw('local storage not available')
+        }
+        else {
+          let tasks = window.localStorage.getItem('tasks')
+          this.data = JSON.parse( tasks )
+          this.dataList$.next( this.data );
+          Promise.resolve( true )
+        }
       }
-      else {
-        let tasks = window.localStorage.getItem('tasks')
-        this.data = JSON.parse( tasks )
-        this.dataList$.next( this.data );
-        Promise.resolve( true )
+      catch ( error ) {
+        Promise.reject( error )
       }
-    }
-    catch ( error ) {
-      Promise.reject( error )
-    }
+    })
+    
   }
 
-  async saveData() {
-    try{
-      if( !window.localStorage ){
-        throw('local storage not available')
+  saveData() {
+    return new Promise(
+      ( resolve, reject ) => {
+        try{
+          if( !window.localStorage ){
+            throw('local storage not available')
+          }
+          else{
+            window.localStorage.setItem('tasks', JSON.stringify( this.data ) )
+            resolve( true )
+          }
+        }
+        catch( error ){
+          reject( error )
+        }
       }
-      else{
-        await window.localStorage.setItem('tasks', JSON.stringify( this.data ) )
-        Promise.resolve( true )
-      }
-    }
-    catch( error ){
-      Promise.reject( error )
-    }
+    );
   }
 }
