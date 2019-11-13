@@ -8,7 +8,7 @@ import { Task } from '../models/task.interface';
   providedIn: 'root'
 })
 export class DataService {
-  public data:Array<Task> = [];
+  public data:Array<Task> = new Array();
   public dataList$ = new BehaviorSubject<Task[]>( this.data );
 
   constructor() { 
@@ -31,6 +31,7 @@ export class DataService {
         }
         else {
           let tasks = window.localStorage.getItem('tasks')
+          //check if this is array
           this.data = JSON.parse( tasks )
           this.dataList$.next( this.data );
           Promise.resolve( true )
