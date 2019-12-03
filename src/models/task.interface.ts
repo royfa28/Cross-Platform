@@ -1,6 +1,7 @@
 export interface Task {
   name:string,
+  description: string,
   start:number,
-  end:number,
+  status:Boolean,
   duration:number
 }

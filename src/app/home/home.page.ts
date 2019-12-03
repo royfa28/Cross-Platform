@@ -16,13 +16,13 @@ export class HomePage implements OnInit {
 
   taskList = [];
 
-  started:Boolean = false;
+  status:Boolean = false;
   duration:number = 0;
 
   time:number;
   timerObj:Subscription;
 
-  startTime:number;
+  startDate:number;
   endTime:number;
 
   taskForm:FormGroup;
@@ -34,36 +34,33 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.taskForm = this.formBuilder.group(
       {
-        name: ['', [Validators.required, Validators.minLength(3) ]]
+        name: ['', [Validators.required, Validators.minLength(3) ]],
+        description: ['', [Validators.required, Validators.minLength(5) ]]
       }
     );
   }
 
-  /*
   start(){
-    this.started = true;
-    this.startTime = new Date().getTime();
+    this.status = false;
+    this.startDate = new Date().getDate();
     const t = timer(0,1000);
     this.timerObj = t.subscribe( (val) => this.time = val );
   }
-  */
-
-  addTask(){
-    
-  }
+  
 
   stop() {
-    this.started = false;
+    this.status = true;
     this.endTime = new Date().getTime();
-    this.duration = this.endTime - this.startTime;
+    this.duration = this.endTime - this.startDate;
     this.timerObj.unsubscribe();
   }
 
-  save() {
+  addTask() {
     let task:Task = {
-      name: this.taskForm.get('name').value, 
-      start: this.startTime,
-      end: this.endTime,
+      name: this.taskForm.get('name').value,
+      description: this.taskForm.get('description').value,
+      start: this.startDate,
+      status: this.status,
       duration: this.duration
     }
     this.dataService.addTask( task );
