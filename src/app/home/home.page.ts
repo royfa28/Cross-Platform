@@ -16,6 +16,7 @@ export class HomePage implements OnInit {
 
   taskList = [];
 
+  started:Boolean = false;
   status:Boolean = false;
   duration:number = 0;
 
@@ -35,12 +36,13 @@ export class HomePage implements OnInit {
     this.taskForm = this.formBuilder.group(
       {
         name: ['', [Validators.required, Validators.minLength(3) ]],
-        description: ['', [Validators.required, Validators.minLength(5) ]]
+        //description: ['', [Validators.required, Validators.minLength(5) ]]
       }
     );
   }
 
   start(){
+    this.started = true;
     this.status = false;
     this.startDate = new Date().getDate();
     const t = timer(0,1000);
@@ -49,19 +51,19 @@ export class HomePage implements OnInit {
   
 
   stop() {
+    this.started = false;
     this.status = true;
     this.endTime = new Date().getTime();
     this.duration = this.endTime - this.startDate;
     this.timerObj.unsubscribe();
   }
 
-  addTask() {
+  save() {
     let task:Task = {
       name: this.taskForm.get('name').value,
-      description: this.taskForm.get('description').value,
+      description: this.taskForm.get('name').value,
       start: this.startDate,
-      status: this.status,
-      duration: this.duration
+      status: this.status
     }
     this.dataService.addTask( task );
     this.taskForm.reset();

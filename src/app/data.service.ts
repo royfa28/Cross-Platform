@@ -18,11 +18,13 @@ export class DataService {
       }
     });
   }
+
   addTask( task ) {
     this.data.push(task);
     this.saveData();
     this.dataList$.next( this.data );
   }
+  
   getData() {
     return new Promise( (resolve,reject) => {
       try{

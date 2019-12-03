@@ -5,8 +5,6 @@
   </ion-toolbar>
 </ion-header>
 
-
-
 <ion-content padding>
   <form [formGroup]="taskForm">
     <ion-list>
@@ -21,15 +19,16 @@
               <ion-label position="stacked">Task Name</ion-label>
               <ion-input type="text" name="taskName" placeholder="Type task name (minimum 3 chars)" formControlName="name"></ion-input>
           </ion-item>
+
     
-          <ion-item>
-              <ion-label position="stacked">Description</ion-label>
-              <ion-input type="text" name="taskDescription" formControlName="description" placeholder="Please input description"></ion-input>
-          </ion-item>
-    
-          <ion-button [disabled]="!taskForm.valid" expand="full" (click)="start()" *ngIf="!started && duration == 0">Start Task</ion-button>
-          <ion-button color="success" expand="full" (click)="stop()" *ngIf="started">Task Completed</ion-button>
-          <ion-button color="secondary" expand="full" (click)="save()" *ngIf="!started && duration > 0">Save and Reset</ion-button>
+          <ion-button [disabled]="!taskForm.valid" expand="full" (click)="start()" 
+          *ngIf="!started && duration == 0">Start Task</ion-button>
+
+          <ion-button color="success" expand="full" (click)="stop()" 
+          *ngIf="started">Task Completed</ion-button>
+
+          <ion-button color="secondary" expand="full" (click)="save()" 
+          *ngIf="!started && duration > 0">Save and Reset</ion-button>
 
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
@@ -40,6 +39,7 @@
 
     </ion-list>
   </form>
+
   <ion-list>
 
   </ion-list>
