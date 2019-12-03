@@ -11,7 +11,11 @@ import { Task } from '../../models/task.interface';
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
+
 export class HomePage implements OnInit {
+
+  taskList = [];
+
   started:Boolean = false;
   duration:number = 0;
 
@@ -35,11 +39,17 @@ export class HomePage implements OnInit {
     );
   }
 
+  /*
   start(){
     this.started = true;
     this.startTime = new Date().getTime();
     const t = timer(0,1000);
     this.timerObj = t.subscribe( (val) => this.time = val );
+  }
+  */
+
+  addTask(){
+    
   }
 
   stop() {
