@@ -24,6 +24,7 @@ export class HomePage implements OnInit {
   timerObj:Subscription;
 
   startDate:number;
+  startTime:number;
   endTime:number;
   stopTime:number;
 
@@ -37,7 +38,7 @@ export class HomePage implements OnInit {
     this.taskForm = this.formBuilder.group(
       {
         name: ['', [Validators.required, Validators.minLength(3) ]],
-        //description: ['', [Validators.required, Validators.minLength(5) ]]
+        description: ['', [Validators.required, Validators.minLength(5) ]]
       }
     );
   }
@@ -45,7 +46,7 @@ export class HomePage implements OnInit {
   start(){
     this.started = true;
     this.status = false;
-    this.startDate = new Date().getDate();
+    this.startTime = new Date().getTime();
     const t = timer(0,1000);
     this.timerObj = t.subscribe( (val) => this.time = val );
   }
@@ -64,7 +65,7 @@ export class HomePage implements OnInit {
   save() {
     let task:Task = {
       name: this.taskForm.get('name').value,
-      description: this.taskForm.get('name').value,
+      description: this.taskForm.get('description').value,
       start: this.startDate,
       status: this.status,
       stop: this.stopTime
