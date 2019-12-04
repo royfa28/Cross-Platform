@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../data.service';
 import { Task } from 'src/models/task.interface';
 import { Subscription } from 'rxjs';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-categories',
@@ -15,7 +15,8 @@ export class CategoriesPage implements OnInit {
   infiniteScroll: IonInfiniteScroll;
 
   constructor(
-    private dataService:DataService
+    private dataService:DataService,
+    public toastController: ToastController
   ) { }
 
   loadData(event) {
@@ -29,6 +30,14 @@ export class CategoriesPage implements OnInit {
         event.target.disabled = true;
       }
     }, 500);
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Your task has been deleted',
+      duration: 2000
+    });
+    toast.present();
   }
 
   toggleInfiniteScroll() {
@@ -51,5 +60,6 @@ export class CategoriesPage implements OnInit {
 
   delete( itemStart ) {
     this.dataService.deleteFromList( itemStart );
+    this.presentToast();
   }
 }

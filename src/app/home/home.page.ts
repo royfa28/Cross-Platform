@@ -29,7 +29,8 @@ export class HomePage implements OnInit {
   taskForm:FormGroup;
   constructor( 
     private dataService:DataService,
-    private formBuilder:FormBuilder
+    private formBuilder:FormBuilder,
+    public toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -41,6 +42,14 @@ export class HomePage implements OnInit {
     );
   }
 
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Your task has been save on Task list.',
+      duration: 2000
+    });
+    toast.present();
+  }
+
   start(){
     this.started = true;
     this.status = false;
@@ -48,6 +57,7 @@ export class HomePage implements OnInit {
     const t = timer(0,1000);
     this.timerSub = t.subscribe( (val) => this.time = val );
     this.save();
+    this.presentToast();
     this.taskForm.reset();
     console.log('this.startTime');
   }

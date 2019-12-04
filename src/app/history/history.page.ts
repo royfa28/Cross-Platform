@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
-import { IonInfiniteScroll } from '@ionic/angular';
+import { IonInfiniteScroll, ToastController } from '@ionic/angular';
 import { Task } from '../../models/task.interface';
 import { DataService } from '../data.service';
 import { Subscription } from 'rxjs';
@@ -18,7 +18,8 @@ export class HistoryPage implements OnInit {
   infiniteScroll: IonInfiniteScroll;
 
   constructor(
-    private dataService:DataService
+    private dataService:DataService,
+    public toastController: ToastController
   ) { }
 
   loadData(event) {
@@ -32,6 +33,14 @@ export class HistoryPage implements OnInit {
         event.target.disabled = true;
       }
     }, 500);
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Your task has been updated',
+      duration: 2000
+    });
+    toast.present();
   }
 
   toggleInfiniteScroll() {
@@ -54,5 +63,6 @@ export class HistoryPage implements OnInit {
 
   update( itemStart ) {
     this.dataService.updateTask( itemStart );
+    this.presentToast();
   }
 }
