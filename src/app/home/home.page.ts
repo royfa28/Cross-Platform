@@ -14,8 +14,6 @@ import { Task } from '../../models/task.interface';
 
 export class HomePage implements OnInit {
 
-  taskList = [];
-
   started:Boolean = false;
   status:Boolean = false;
   duration:number = 0;
@@ -26,7 +24,7 @@ export class HomePage implements OnInit {
   startDate:number;
   startTime:number;
   endTime:number;
-  stopTime:number;
+  stopTime:number = 0;
 
   taskForm:FormGroup;
   constructor( 
@@ -49,9 +47,11 @@ export class HomePage implements OnInit {
     this.startTime = new Date().getTime();
     const t = timer(0,1000);
     this.timerSub = t.subscribe( (val) => this.time = val );
+    this.save();
+    this.taskForm.reset();
+    console.log('this.startTime');
   }
   
-
   stop() {
     this.started = false;
     this.status = true;
