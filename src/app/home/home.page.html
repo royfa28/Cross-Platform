@@ -6,7 +6,7 @@
 </ion-header>
 
 <ion-content padding>
-  <form [formGroup]="taskForm">
+  <form id="trackerForm" [formGroup]="taskForm">
     <ion-list>
       
       <ion-list-header>
@@ -20,20 +20,13 @@
               <ion-input type="text" name="taskName" placeholder="Type task name (minimum 3 chars)" formControlName="name"></ion-input>
           </ion-item>
 
-    
-          <ion-button [disabled]="!taskForm.valid" expand="full" (click)="start()" 
-          *ngIf="!started && duration == 0">Start Task</ion-button>
-
-          <ion-button color="success" expand="full" (click)="stop()" 
-          *ngIf="started">Task Completed</ion-button>
-
-          <ion-button color="secondary" expand="full" (click)="save()" 
-          *ngIf="!started && duration > 0">Save and Reset</ion-button>
+          <ion-button expand="full" color="tertiary" *ngIf="!started" (click)="start()" [disabled]="!taskForm.valid">Start</ion-button>
+          <ion-button expand="full" color="secondary" *ngIf="started" (click)="stop()">Stop</ion-button>
 
         </ion-infinite-scroll-content>
       </ion-infinite-scroll>
 
-      <ion-item *ngIf="time >= 0">
+      <ion-item *ngIf="started">
         {{time}} seconds
       </ion-item>
 

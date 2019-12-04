@@ -4,7 +4,6 @@ import { DataService } from '../data.service';
 import { Subscription } from 'rxjs';
 
 import { ModalController } from '@ionic/angular';
-import { HistoryDetailPage } from '../history-detail/history-detail.page';
 
 @Component({
   selector: 'app-history',
@@ -12,28 +11,22 @@ import { HistoryDetailPage } from '../history-detail/history-detail.page';
   styleUrls: ['./history.page.scss'],
 })
 export class HistoryPage implements OnInit {
-  data:Array<Task> = [];
-  dataSub:Subscription;
+  history:Array<Task> = [];
+  historySub:Subscription;
 
   constructor(
-    private dataService:DataService, 
-    private modal:ModalController 
+    private dataService:DataService
   ) { }
 
   ngOnInit() {
-    this.dataSub = this.dataService.dataList$.subscribe( 
-      (taskData) => {
-        this.data = taskData;
-      } 
-    )
+    this.historySub = this.dataService.list$.subscribe( taskData => this.history = taskData );
   }
 
-  async showDetail( task ){
-    console.log( task );
-    const detail = await this.modal.create({
-      component:HistoryDetailPage,
-      componentProps: task
-    });
-    return await detail.present();
+  duration(stop,start) {
+    return ((stop - start) / 1000).toFixed(2);
+  }
+
+  delete( itemStart ) {
+    this.dataService.deleteFromList( itemStart );
   }
 }

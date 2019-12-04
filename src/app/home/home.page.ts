@@ -25,6 +25,7 @@ export class HomePage implements OnInit {
 
   startDate:number;
   endTime:number;
+  stopTime:number;
 
   taskForm:FormGroup;
   constructor( 
@@ -56,6 +57,8 @@ export class HomePage implements OnInit {
     this.endTime = new Date().getTime();
     this.duration = this.endTime - this.startDate;
     this.timerObj.unsubscribe();
+    this.save();
+    this.taskForm.reset();
   }
 
   save() {
@@ -63,11 +66,9 @@ export class HomePage implements OnInit {
       name: this.taskForm.get('name').value,
       description: this.taskForm.get('name').value,
       start: this.startDate,
-      status: this.status
+      status: this.status,
+      stop: this.stopTime
     }
-    this.dataService.addTask( task );
-    this.taskForm.reset();
-    this.duration = 0;
-    this.time = 0;
+    this.dataService.addToList( task );
   }
 }

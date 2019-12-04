@@ -8,8 +8,7 @@ const routes: Routes = [
   },
   { path: 'home', loadChildren: './home/home.module#HomePageModule' },
   { path: 'history', loadChildren: './history/history.module#HistoryPageModule' },
-  { path: 'categories', loadChildren: './categories/categories.module#CategoriesPageModule' },
-  { path: 'history-detail', loadChildren: './history-detail/history-detail.module#HistoryDetailPageModule' }
+  { path: 'categories', loadChildren: './categories/categories.module#CategoriesPageModule' }
 ];
 @NgModule({
   imports: [

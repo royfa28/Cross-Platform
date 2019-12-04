@@ -7,61 +7,65 @@ import { Task } from '../models/task.interface';
 @Injectable({
   providedIn: 'root'
 })
+
 export class DataService {
-  public data:Array<Task> = new Array();
-  public dataList$ = new BehaviorSubject<Task[]>( this.data );
+  taskList:Array<Task> = new Array();
+  list$ = new BehaviorSubject<Task[]>( this.taskList ) ;
 
-  constructor() { 
-    this.getData().then( (response) => { 
-      if( response ) {
-        this.dataList$.next(this.data) 
-      }
-    });
-  }
-
-  addTask( task ) {
-    this.data.push(task);
-    this.saveData();
-    this.dataList$.next( this.data );
+  constructor() {
+    this.loadData().then((data:Array<Task>) => {
+      data.forEach((item) => {
+        this.taskList.push(item)
+      })
+      this.sortList();
+      this.list$.next( this.taskList );
+    })
   }
   
-  getData() {
-    return new Promise( (resolve,reject) => {
-      try{
-        if( !window.localStorage ){
-          throw('local storage not available')
-        }
-        else {
-          let tasks = window.localStorage.getItem('tasks')
-          //check if this is array
-          this.data = JSON.parse( tasks )
-          this.dataList$.next( this.data );
-          Promise.resolve( true )
-        }
+  addToList( task:Task ) {
+    this.taskList.push( task );
+    this.list$.next( this.taskList );
+    this.sortList();
+    this.saveData();
+  }
+
+  deleteFromList( id:number ) {
+    this.taskList.forEach( (task:Task, index ) => {
+      if( task.start == id ) {
+        this.taskList.splice( index, 1 );
       }
-      catch ( error ) {
-        Promise.reject( error )
-      }
-    })
-    
+    });
+    this.list$.next( this.taskList );
   }
 
   saveData() {
-    return new Promise(
-      ( resolve, reject ) => {
-        try{
-          if( !window.localStorage ){
-            throw('local storage not available')
-          }
-          else{
-            window.localStorage.setItem('tasks', JSON.stringify( this.data ) )
-            resolve( true )
-          }
-        }
-        catch( error ){
-          reject( error )
-        }
+    let data = JSON.stringify( this.taskList );
+    try {
+      window.localStorage.setItem("tasks" , data );
+      if( !window.localStorage.getItem("tasks") ) {
+        throw("local storage not available");
       }
-    );
+    }
+    catch( exc ) {
+      console.log( exc );
+    }
+  }
+
+  loadData() {
+    return new Promise( (resolve,reject) => {
+      if( !window.localStorage.getItem("tasks") ) {
+        reject( false );
+      }
+      else{
+        let data = JSON.parse( window.localStorage.getItem("tasks") );
+        resolve( data );
+      }
+    } );
+  }
+
+  sortList(){
+    this.taskList.sort( (task1:Task, task2:Task ) => {
+      return task2.stop - task1.stop;
+    })
   }
 }
