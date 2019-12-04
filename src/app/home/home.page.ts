@@ -21,7 +21,7 @@ export class HomePage implements OnInit {
   duration:number = 0;
 
   time:number;
-  timerObj:Subscription;
+  timerSub:Subscription;
 
   startDate:number;
   startTime:number;
@@ -48,7 +48,7 @@ export class HomePage implements OnInit {
     this.status = false;
     this.startTime = new Date().getTime();
     const t = timer(0,1000);
-    this.timerObj = t.subscribe( (val) => this.time = val );
+    this.timerSub = t.subscribe( (val) => this.time = val );
   }
   
 
@@ -56,8 +56,7 @@ export class HomePage implements OnInit {
     this.started = false;
     this.status = true;
     this.endTime = new Date().getTime();
-    this.duration = this.endTime - this.startDate;
-    this.timerObj.unsubscribe();
+    this.timerSub.unsubscribe();
     this.save();
     this.taskForm.reset();
   }
@@ -66,7 +65,7 @@ export class HomePage implements OnInit {
     let task:Task = {
       name: this.taskForm.get('name').value,
       description: this.taskForm.get('description').value,
-      start: this.startDate,
+      start: this.startTime,
       status: this.status,
       stop: this.stopTime
     }
