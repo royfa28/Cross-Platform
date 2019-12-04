@@ -52,7 +52,7 @@ export class HistoryPage implements OnInit {
     return ((stop - start) / 1000).toFixed(2);
   }
 
-  delete( itemStart ) {
-    this.dataService.deleteFromList( itemStart );
+  update( itemStart ) {
+    this.dataService.updateTask( itemStart );
   }
 }

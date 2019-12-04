@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { Task } from '../models/task.interface';
-import { isNgTemplate } from '@angular/compiler';
 
 
 @Injectable({
@@ -33,7 +32,7 @@ export class DataService {
   deleteFromList( id:number ) {
     this.taskList.forEach( (task:Task, index ) => {
       if( task.start == id ) {
-        this.taskList
+        this.taskList.splice( index, 1 );
       }
     });
     this.saveData();
@@ -41,7 +40,14 @@ export class DataService {
   }
 
   updateTask(id:number){
-    
+    this.taskList.forEach( (task:Task, index ) => {
+      if( task.start == id ) {
+        this.taskList[index].status = true;
+      }
+    });
+    console.log('Update');
+    this.saveData();
+    this.list$.next( this.taskList );
   }
 
   saveData() {
