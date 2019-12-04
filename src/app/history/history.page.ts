@@ -48,11 +48,6 @@ export class HistoryPage implements OnInit {
     } );
   }
 
-  finish(){
-    let home:HomePage;
-    home.stop();
-  }
-
   duration(stop,start) {
     return ((stop - start) / 1000).toFixed(2);
   }
