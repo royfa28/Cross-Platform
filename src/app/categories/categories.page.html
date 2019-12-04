@@ -14,7 +14,7 @@
             </ion-col>
   
             <ion-col>
-              <ion-note>Status: Completed on {{ item.start | date : 'dd/MM/yy h:mm:ss'}}</ion-note>
+              <ion-note>Status: Completed on {{ item.stop | date : 'dd/MM/yy h:mm:ss'}}</ion-note>
             </ion-col>
           </ion-row>
   
@@ -33,6 +33,7 @@
             <ion-col>
               <ion-button color="secondary" (click)="delete(item.start)">
                 <ion-icon name="checkmark-circle-outline"></ion-icon>
+                Delete
               </ion-button>
             </ion-col>
           </ion-row>

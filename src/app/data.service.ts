@@ -9,6 +9,9 @@ import { Task } from '../models/task.interface';
 })
 
 export class DataService {
+
+  endTime:number;
+  
   taskList:Array<Task> = new Array();
   list$ = new BehaviorSubject<Task[]>( this.taskList ) ;
 
@@ -43,6 +46,7 @@ export class DataService {
     this.taskList.forEach( (task:Task, index ) => {
       if( task.start == id ) {
         this.taskList[index].status = true;
+        this.taskList[index].stop = (this.endTime = new Date().getTime());
       }
     });
     console.log('Update');
