@@ -13,10 +13,9 @@ import { HomePage } from '../home/home.page';
   styleUrls: ['./history.page.scss'],
 })
 export class HistoryPage implements OnInit {
-  
-  @ViewChild(IonInfiniteScroll) infiniteScroll: IonInfiniteScroll;
   history:Array<Task> = [];
   historySub:Subscription;
+  infiniteScroll: IonInfiniteScroll;
 
   constructor(
     private dataService:DataService
