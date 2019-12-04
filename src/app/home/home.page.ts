@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup} from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, from } from 'rxjs';
 import {timer} from 'rxjs';
+import { ToastController } from '@ionic/angular';
 
 import { DataService } from '../data.service';
 import { Task } from '../../models/task.interface';
@@ -16,7 +17,6 @@ export class HomePage implements OnInit {
 
   started:Boolean = false;
   status:Boolean = false;
-  duration:number = 0;
 
   time:number;
   timerSub:Subscription;
@@ -51,15 +51,6 @@ export class HomePage implements OnInit {
     this.taskForm.reset();
     console.log('this.startTime');
   }
-  
-  stop() {
-    this.started = false;
-    this.status = true;
-    this.endTime = new Date().getTime();
-    this.timerSub.unsubscribe();
-    this.save();
-    this.taskForm.reset();
-  }
 
   save() {
     let task:Task = {
@@ -71,4 +62,15 @@ export class HomePage implements OnInit {
     }
     this.dataService.addToList( task );
   }
+
+  /*
+    stop() {
+    this.started = false;
+    this.status = true;
+    this.endTime = new Date().getTime();
+    this.timerSub.unsubscribe();
+    this.save();
+    this.taskForm.reset();
+  }
+  */
 }
