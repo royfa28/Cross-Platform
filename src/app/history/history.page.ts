@@ -39,7 +39,13 @@ export class HistoryPage implements OnInit {
   }
 
   ngOnInit() {
-    this.historySub = this.dataService.list$.subscribe( taskData => this.history = taskData );
+    this.historySub = this.dataService.list$.subscribe( (taskData) => {
+      this.history = taskData.filter((data)=>{
+        if(data.status == false){
+          return data;
+        }
+      });
+    } );
   }
 
   finish(){
